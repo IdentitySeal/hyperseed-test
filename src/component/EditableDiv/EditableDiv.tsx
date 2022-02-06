@@ -1,4 +1,5 @@
 import React, { useEffect, } from 'react';
+import './editableDiv.css'
 
 
 interface IEditableInput {
@@ -9,17 +10,18 @@ interface IEditableInput {
 
 }
 
-const EditableInput = (props:IEditableInput) => {
+const EditableDiv = (props:IEditableInput) => {
   let refNode:HTMLDivElement | null = null;
     useEffect(()=>{
       if (refNode) {
         refNode.innerText = props.value;
       }
     })
-  
+
   return (
     <>
     <div
+        className='editable__box'
         contentEditable={props.editable ?? false}
         ref={node => refNode = node}
         onInput={(e:React.FormEvent<HTMLDivElement>) => props.onChange(e,props.name)}
@@ -29,4 +31,4 @@ const EditableInput = (props:IEditableInput) => {
   );
 };
 
-export default EditableInput;
+export default EditableDiv;

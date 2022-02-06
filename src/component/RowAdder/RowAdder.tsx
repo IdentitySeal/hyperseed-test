@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { computeService } from "../../utils/compute";
-// import { Button } from "../Button/button";
 import { Button } from "../Button/Button";
-import EditableInput from "../EditableInput/EditableInput";
 import { Header } from "../Header/Header";
+import EditableDiv from '../EditableDiv/EditableDiv'
 import './rowAdder.css'
 
 interface ObjectMapper {
@@ -15,7 +14,7 @@ export default function RowAdder() {
     { valueX: 0, valueY: 0 },
   ]);
 
-  const handleInputChange = (e: any, name: any, index: number) => {
+  const handleInputChange = (e: any, name: string, index: number) => {
     const { innerText } = e.target;
     const list: any = [...categoriesList];
     if (isNaN(innerText)) {
@@ -23,7 +22,6 @@ export default function RowAdder() {
       setCategoriesList(list);
     } else {
       list[index][name] = parseInt(innerText);
-      console.log(list);
       setCategoriesList(list);
     }
   };
@@ -38,54 +36,52 @@ export default function RowAdder() {
     setCategoriesList([...categoriesList, { valueX: 0, valueY: 0 }]);
   };
 
-  console.log(categoriesList);
-
   return (
     <div className="App">
       <div className="">
        <Header/>
         {categoriesList.map((item, i) => {
           return (
-            <div className="">
+            <div key={i+1} className="">
               <div className="container">
-                <EditableInput
+                <EditableDiv
                   editable={true}
                   name="valueX"
-                  onChange={(e, name) => handleInputChange(e, name, i)}
+                  onChange={(e: any, name: string) => handleInputChange(e, name, i)}
                   value={item.valueX}
                 />
-                <EditableInput
+                <EditableDiv
                   editable={true}
                   name="valueY"
-                  onChange={(e, name) => handleInputChange(e, name, i)}
+                  onChange={(e: any, name: string) => handleInputChange(e, name, i)}
                   value={item.valueY}
                 />
-                <EditableInput
+                <EditableDiv
                   name="addXandY"
-                  onChange={(e) => handleInputChange}
+                  onChange={() => handleInputChange}
                   value={computeService.addXandY({
                     x: categoriesList[i].valueX,
                     y: categoriesList[i].valueY,
                   })}
                 />
-                <EditableInput
+                <EditableDiv
                   name="multiplyXandY"
-                  onChange={(e) => handleInputChange}
+                  onChange={() => handleInputChange}
                   value={computeService.multiplyXandY({
                     x: categoriesList[i].valueX,
                     y: categoriesList[i].valueY,
                   })}
                 />
-                <EditableInput
+                <EditableDiv
                   name="powerXtoY"
-                  onChange={(e) => handleInputChange}
+                  onChange={() => handleInputChange}
                   value={computeService.powerXtoY({
                     x: categoriesList[i].valueX,
                     y: categoriesList[i].valueY,
                   })}
                 />
               </div>
-              <div style={{display:"flex",flexDirection:'row',alignItems:'flex-end',justifyContent:'right'}}>
+              <div className="button__container">
                 {categoriesList.length !== 1 && (
                 <Button onClick={() => handleRemoveClick(i)} title={'X'}/>
                 )}

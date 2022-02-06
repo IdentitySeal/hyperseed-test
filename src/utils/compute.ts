@@ -4,7 +4,6 @@ interface IcomputeArgs {
     y:number
 }
 
-
 export class computeService {
 
       static addXandY = (props:IcomputeArgs) => {

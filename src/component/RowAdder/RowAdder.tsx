@@ -4,7 +4,9 @@ import { computeService } from "../../utils/compute";
 import { Button } from "../Button/Button";
 import EditableInput from "../EditableInput/EditableInput";
 import { Header } from "../Header/Header";
-import './rowAdder.css'
+import OrderRow from "../OrderRow/OrderRow";
+import RowContainer from "../RowContainer/RowContainer";
+import "./rowAdder.css";
 
 interface ObjectMapper {
   [key: string]: number;
@@ -31,7 +33,7 @@ export default function RowAdder() {
   const handleRemoveClick = (index: number) => {
     const list = [...categoriesList];
     list.splice(index, 1);
-    setCategoriesList(list);
+    setCategoriesList(prev=>({...prev,categoriesList:list}));
   };
 
   const handleAddClick = () => {
@@ -43,59 +45,37 @@ export default function RowAdder() {
   return (
     <div className="App">
       <div className="">
-       <Header/>
-        {categoriesList.map((item, i) => {
+        <Header />
+        <OrderRow
+                data={categoriesList}
+                row={<></>}
+                handleRemoveClick={handleRemoveClick}
+                handleInputChange={handleInputChange} 
+                handleAddClick={handleAddClick}
+
+                // row={<RowContainer item={item} handleRemoveClick={handleRemoveClick} handleInputChange={handleInputChange} index={i} categoriesList={categoriesList}/>}
+              />
+
+        {/* {categoriesList.map((item, i) => {
           return (
+            
             <div className="">
-              <div className="container">
-                <EditableInput
-                  editable={true}
-                  name="valueX"
-                  onChange={(e, name) => handleInputChange(e, name, i)}
-                  value={item.valueX}
-                />
-                <EditableInput
-                  editable={true}
-                  name="valueY"
-                  onChange={(e, name) => handleInputChange(e, name, i)}
-                  value={item.valueY}
-                />
-                <EditableInput
-                  name="addXandY"
-                  onChange={(e) => handleInputChange}
-                  value={computeService.addXandY({
-                    x: categoriesList[i].valueX,
-                    y: categoriesList[i].valueY,
-                  })}
-                />
-                <EditableInput
-                  name="multiplyXandY"
-                  onChange={(e) => handleInputChange}
-                  value={computeService.multiplyXandY({
-                    x: categoriesList[i].valueX,
-                    y: categoriesList[i].valueY,
-                  })}
-                />
-                <EditableInput
-                  name="powerXtoY"
-                  onChange={(e) => handleInputChange}
-                  value={computeService.powerXtoY({
-                    x: categoriesList[i].valueX,
-                    y: categoriesList[i].valueY,
-                  })}
-                />
-              </div>
-              <div style={{display:"flex",flexDirection:'row',alignItems:'flex-end',justifyContent:'right'}}>
-                {categoriesList.length !== 1 && (
-                <Button onClick={() => handleRemoveClick(i)} title={'X'}/>
-                )}
-              </div>
-              {categoriesList.length - 1 === i && (
-                <Button onClick={handleAddClick} title={'Add Row'}/>
-              )}
-            </div>
-          );
-        })}
+              <OrderRow
+                i={i}
+                data={categoriesList}
+                row={<RowContainer item={item} handleRemoveClick={handleRemoveClick} handleInputChange={handleInputChange} index={i} categoriesList={categoriesList}/>}
+              /> */}
+
+              {/* <OrderRow/> */}
+
+              {/* <RowContainer item={item} handleRemoveClick={handleRemoveClick} handleInputChange={handleInputChange} index={i} categoriesList={categoriesList}/> */}
+
+              {/* {categoriesList.length - 1 === i && (
+                <Button onClick={handleAddClick} title={"Add Row"} />
+              )} */}
+            {/* </div> */} 
+          {/* );
+        })} */}
       </div>
     </div>
   );
